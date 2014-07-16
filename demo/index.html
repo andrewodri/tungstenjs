@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html> 
+	<head>
+		<title>iTunes Browser Application</title>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			$.fn.view = function(){
+				var scope = this;
+				return $.when(arguments[0]).done(function(){
+					return scope.html(arguments[0]);
+				});
+			}
+			
+			Object.prototype.merge = function(source){return Object.assign(this, source)}
+		</script>
+		<script type="text/javascript" src="https://traceur-compiler.googlecode.com/git/bin/traceur.js"></script>
+		<script type="text/javascript" src="https://traceur-compiler.googlecode.com/git/src/bootstrap.js"></script>
+		<script type="text/javascript">traceur.options.experimental = true;</script>
+		<script type="text/tracuer" src="../src/classes/utility.js"></script>
+		<script type="text/tracuer" src="../src/classes/model.js"></script>
+		<script type="text/tracuer" src="../src/classes/view.js"></script>
+		<script type="text/tracuer" src="../src/classes/controller.js"></script>
+		<script type="text/tracuer" src="classes/example-model.js"></script>
+		<script type="text/tracuer" src="classes/example-view.js"></script>
+		<script type="text/tracuer" src="classes/example-controller.js"></script>
+		<script type="module">
+			/**
+			 * @todo Create a fully functional iTunes browser that demonstrates multiple facets of TungstenJS
+			 */
+
+			import {Utility} from '../src/classes/utility';
+
+			import {Model} from '../src/classes/model';
+			import {View} from '../src/classes/view';
+			import {Controller} from '../src/classes/controller';
+		
+			import {ExampleModel} from 'classes/example-model';
+			import {ExampleView} from 'classes/example-view';
+			import {ExampleController} from 'classes/example-controller';
+		
+			let app = new ExampleController(document);
+		</script>
+	</head> 
+	<body>
+
+		<h1>iTunes Browser Application</h1>
+
+		<div class="display"></div>
+
+		<div class="search-container">
+			<input type="test" class="search-field" placeholder="Artist name" />
+			<input type="button" class="search-button" value="Find song" />
+		</div>
+
+	</body> 
+</html>
