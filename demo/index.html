@@ -17,26 +17,26 @@
 		<script type="text/javascript" src="https://traceur-compiler.googlecode.com/git/src/bootstrap.js"></script>
 		<script type="text/javascript">traceur.options.experimental = true;</script>
 		<script type="text/tracuer" src="../src/classes/utility.js"></script>
-		<script type="text/tracuer" src="../src/classes/model.js"></script>
-		<script type="text/tracuer" src="../src/classes/view.js"></script>
-		<script type="text/tracuer" src="../src/classes/controller.js"></script>
-		<script type="text/tracuer" src="classes/example-model.js"></script>
-		<script type="text/tracuer" src="classes/example-view.js"></script>
-		<script type="text/tracuer" src="classes/example-controller.js"></script>
+		<script type="text/tracuer" src="../src/model.js"></script>
+		<script type="text/tracuer" src="../src/view.js"></script>
+		<script type="text/tracuer" src="../src/controller.js"></script>
+		<script type="text/tracuer" src="./example-model.js"></script>
+		<script type="text/tracuer" src="./example-view.js"></script>
+		<script type="text/tracuer" src="./example-controller.js"></script>
 		<script type="module">
 			/**
 			 * @todo Create a fully functional iTunes browser that demonstrates multiple facets of TungstenJS
 			 */
 
-			import {Utility} from '../src/classes/utility';
+			import {Utility} from '../src/utility';
 
-			import {Model} from '../src/classes/model';
-			import {View} from '../src/classes/view';
-			import {Controller} from '../src/classes/controller';
+			import {Model} from '../src/model';
+			import {View} from '../src/view';
+			import {Controller} from '../src/controller';
 		
-			import {ExampleModel} from 'classes/example-model';
-			import {ExampleView} from 'classes/example-view';
-			import {ExampleController} from 'classes/example-controller';
+			import {ExampleModel} from './example-model';
+			import {ExampleView} from './example-view';
+			import {ExampleController} from './example-controller';
 		
 			let app = new ExampleController(document);
 		</script>
