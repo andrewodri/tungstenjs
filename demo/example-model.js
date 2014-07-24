@@ -1,6 +1,6 @@
 export class ExampleModel extends Model {
 	static get services() {
-		return super.services.merge({
+		return Utility.merge(super.services, {
 			create : { verb : 'POST', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
 			,find : { verb : 'GET', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
 			,update : { verb : 'PUT', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }

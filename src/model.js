@@ -193,7 +193,7 @@ export class Model {
 	constructor(attributes) {
 		console.log('model.constructor()');
 
-		this.merge(attributes);
+		Object.assign(this, attributes);
 	}
 
 	/**

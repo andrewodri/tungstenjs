@@ -83,7 +83,7 @@ export class Controller {
 		this.element = $(context);
 
 		// Merge defaults into the instance of this class... (I don't know if this is a good idea yet)
-		this.merge(this.defaults);
+		Object.assign(this, this.defaults);
 
 		for(let listener of this.listeners){
 			// Set all the main variables through destructured assignment...

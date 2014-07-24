@@ -1,6 +1,6 @@
 export class ExampleController extends Controller {
 	get defaults() {
-		return super.defaults.merge({
+		return Utility.merge(super.defaults, {
 			selectors : {
 				displayElement : '.display'
 				,searchField : '.search-field'
@@ -10,7 +10,7 @@ export class ExampleController extends Controller {
 	}
 
 	get listeners() {
-		return super.listeners.concat([
+		return Utility.merge(super.listeners, [
 			{ selector : '{selectors.searchButton} click', handler : this.displayArtist }
 			,{ selector : 'click', handler : this.example }
 		]);
