@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/affirmix/tungstenjs/blob/master/tungstenjs-logo.png?raw=true" alt="TungstenJS logo"/>
+</p>
+
 ## What is TungstenJS?
 
 TungstenJS is an ECMAScript 6 Javascript MVC framework designed to provide common object-oriented design patterns in manner more familiar to developers who have experience working with class-based languages, thanks to the new language features introduced in the [ECMA-262 6th Edition Draft Specification](http://people.mozilla.org/~jorendorff/es6-draft.html).
@@ -16,7 +20,9 @@ Put simply, but ECMAScript 6 is a fundamentally new language. Due to the languag
 
 ## ECMAScript 6/ECMA-262 isn't finalized. How can I use TungstenJS?
 
-You can use it today by means of Google Traceur. TungstenJS will only implement language features currently supported in Google Traceur, an ECMAScript 6 compiler that generates ECMASCript 5.1 compatible code for use in today's browsers. For now at least, a lot of the heavy lifting for XMLHTTPRequests, DOM traversal, and deferred processing is handled by jQuery. With that in mind, TungstenJS has the following dependencies:
+You can use it today by means of [Google Traceur](https://github.com/google/traceur-compiler), and more recently [6to5](https://6to5.org/). TungstenJS will only implement language features currently supported in these projects, an ECMAScript 6 compiler that generates ECMASCript 5.1 compatible code for use in today's browsers. More documentation as well as boilerplate build scripts will be included as the projects gets closer to a stable release.
 
-* [Google Traceur](https://github.com/google/traceur-compiler)
-* [jQuery](https://github.com/jquery/jquery)
+For now at least, a lot of the heavy lifting for XMLHTTPRequests, DOM traversal, and deferred processing is handled by jQuery. With that in mind, TungstenJS has the following dependencies:
+
+* [Google Traceur](https://github.com/google/traceur-compiler) / [6to5](https://6to5.org/)
+* [jQuery](https://github.com/jquery/jquery) *This dependency will be removed as development continues*
