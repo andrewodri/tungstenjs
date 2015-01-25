@@ -13,11 +13,11 @@ export class Controller {
 	 * @property {Object} defaults The properties of this object will be merged into the controller itself, providing default values for the controller itself
 	 *
 	 * Defines default properties that will be merged into each controller instance by default.
-	 * 
+	 *
 	 * Due to the lack of support for class properties in ECMAScript 6, properties have been defined in getters that merge with thier super functions.
 	 *
 	 * Below is an example of a standard override of defaults that merges with it's sub class:
-	 * 
+	 *
 	 *	get defaults() {
 	 *		return super.defaults.merge({
 	 *			selectors : {
@@ -44,7 +44,7 @@ export class Controller {
 	 * @property {Array} listeners An array of objects that represent DOM query selectors, events, and callback functions for DOM event binding on the controller
 	 *
 	 * Defines the listener object which will be parsed through and then bound during construction. See the demo application for an example implementation.
-	 * 
+	 *
 	 * Due to the lack of support for class properties in ECMAScript 6, properties have been defined in getters that merge with thier super functions.
 	 *
 	 * Below is an example of a standard override of defaults that merges with it's sub class:
@@ -78,7 +78,7 @@ export class Controller {
 	 */
 	constructor(context) {
 		console.log('controller.constructor()');
-		
+
 		// Rename context to element, and element to targetElement...
 		this.element = $(context);
 
@@ -110,7 +110,7 @@ export class Controller {
 			}else{
 				$(selectorElement, $(context)).on(event, $.proxy(listener.handler, this));
 			}
-			
+
 			// Non-native ES6 implementations only parse code after document ready and load events, so we need to re-trigger them...
 			if($(selectorElement).is(document) && event == 'ready' && /interactive|complete/.test(document.readyState)){
 				$(selectorElement).trigger('ready');
@@ -132,5 +132,20 @@ export class Controller {
 	 */
 	initialize(element) {
 		console.log('controller.initialize()');
+	}
+
+	/**
+	* @param {Boolean} isIncludeElement Defines whether the DOM element that the controller is attached to should also be destroyed.
+	*
+	* This function destroys the instance of the controller, as well as the DOM element if defined.
+	*/
+	destroy(isIncludeElement = false) {
+		console.log('controller.destroy()');
+
+		if(isIncludeElement){
+			this.element.remove();
+		}
+
+		delete this;
 	}
 }

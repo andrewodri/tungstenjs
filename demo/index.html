@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html> 
+<html>
 	<head>
 		<title>iTunes Browser Application</title>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -19,19 +19,19 @@
 			 * @todo Create a fully functional iTunes browser that demonstrates multiple facets of TungstenJS
 			 */
 
-			import {Utility} from '../src/utility';
+			import {Utility} from '/tungstenjs/src/utility';
 
-			import {Model} from '../src/model';
-			import {View} from '../src/view';
-			import {Controller} from '../src/controller';
-		
-			import {ExampleModel} from './example-model';
-			import {ExampleView} from './example-view';
-			import {ExampleController} from './example-controller';
-		
+			import {Model} from '/tungstenjs/src/model';
+			import {View} from '/tungstenjs/src/view';
+			import {Controller} from '/tungstenjs/src/controller';
+
+			import {ExampleModel} from '/tungstenjs/demo/example-model';
+			import {ExampleView} from '/tungstenjs/demo/example-view';
+			import {ExampleController} from '/tungstenjs/demo/example-controller';
+
 			let app = new ExampleController(document);
 		</script>
-	</head> 
+	</head>
 	<body>
 
 		<h1>iTunes Browser Application</h1>
@@ -43,5 +43,5 @@
 			<input type="button" class="search-button" value="Find song" />
 		</div>
 
-	</body> 
+	</body>
 </html>

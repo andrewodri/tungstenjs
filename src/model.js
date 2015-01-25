@@ -18,26 +18,26 @@ export class Model {
 	 * @property {Object} services Object containing create, find, update, and delete properties that define RESTful service endpoints
 	 *
 	 * Templated URLs are supported using ECMAScript 6 quasi-literal tenplate syntax. See the MDN documentation for more information. See the demo application for an example implementation.
-	 * 
+	 *
 	 * Due to the lack of support for class properties in ECMAScript 6, properties have been defined in getters that merge with thier super functions.
 	 *
 	 * Below is an example of a standard override of services that merges with it's sub class:
-	 * 
+	 *
 	 *	static get services() {
 	 *		return super.services.merge({
-	 *			create : { verb : 'POST', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
-	 *			,find : { verb : 'GET', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
-	 *			,update : { verb : 'PUT', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
-	 *			,delete : { verb : 'DELETE', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
+	 *			create : { method : 'POST', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
+	 *			,find : { method : 'GET', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
+	 *			,update : { method : 'PUT', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
+	 *			,delete : { method : 'DELETE', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
 	 *		});
 	 *	}
 	 */
 	static get services() {
 		return {
-			create : { verb : 'POST', uri : '', format : 'jsonp' }
-			,find : { verb : 'GET', uri : '', format : 'jsonp' }
-			,update : { verb : 'PUT', uri : '', format : 'jsonp' }
-			,delete : { verb : 'DELETE', uri : '', format : 'jsonp' }
+			create : { method : 'POST', uri : '', format : 'jsonp' }
+			,find : { method : 'GET', uri : '', format : 'jsonp' }
+			,update : { method : 'PUT', uri : '', format : 'jsonp' }
+			,delete : { method : 'DELETE', uri : '', format : 'jsonp' }
 		}
 	}
 
@@ -51,6 +51,8 @@ export class Model {
 	 */
 	static create(attributes){
 		console.log('Model.create()');
+
+		return this.hydrate(attributes).save();
 	}
 
 	/**
@@ -64,49 +66,21 @@ export class Model {
 	static find(attributes) {
 		console.log('Model.find()');
 
-		var deferred = $.Deferred();
-
-		$.when(
-			$.ajax({
-				type : this.services.find.verb
-				,url : Utility.stringFormat(this.services.find.uri, attributes)
-				,dataType : this.services.find.format
-			})
-		).done(
-			(data, textStatus, jqXHR) => deferred.resolve(
-				this.hydrate(
-					this.filter(data)
-				)
-			)
-		);
-		
-		return deferred.promise();
+		return this.__find__(attributes);
 	}
 
 	/**
-	 * @todo Implement this function
-	 * @static
-	 * @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
-	 * @returns {Array|Model} Deferred instance of the Models that are found
-	 *
-	 * Finds and returns once or more instances of the model or creates a new instance if none are found.
-	 */
-	static findOrNew(attributes) {
-		console.log('Model.findOrNew()');
-	}
-
-	/**
-	 * @static
-	 * @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
-	 * @returns {Array|Model} Deferred instance of the models that are found
-	 *
-	 * Finds and returns once or more instances of the model or throws and error if none are found.
-	 */
+	* @static
+	* @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
+	* @returns {Array|Model} Deferred instance of the models that are found
+	*
+	* Finds and returns once or more instances of the model or throws and error if none are found.
+	*/
 	static findOrFail(attributes) {
 		console.log('Model.findOrFail()');
 
 		$.when(
-			this.find(attributes)
+			this.__find__(attributes)
 		).done(function(data){
 			if((data instanceof Object && data != {}) || (data instanceof Array && data != [])){
 				return data;
@@ -119,14 +93,94 @@ export class Model {
 	/**
 	 * @todo Implement this function
 	 * @static
+	 * @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
+	 * @returns {Array|Model} Deferred instance of the Models that are found
+	 *
+	 * Finds and returns once or more instances of the model or creates a new instance if none are found.
+	 */
+	static findOrNew(attributes) {
+		console.log('Model.findOrNew()');
+
+		$.when(
+			this.__find__(attributes)
+		).done(function(data){
+			if((data instanceof Object && data != {}) || (data instanceof Array && data != [])){
+				return data;
+			}else{
+				return this.hydrate(attributes);
+			}
+		});
+	}
+
+	/**
+	* @todo Implement this function
+	* @static
+	* @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
+	* @returns {Array|Model} Deferred instance of the Models that are found
+	*
+	* Finds and returns the first instance of the model or creates a new instance and saves it if none are found.
+	*/
+	static firstOrCreate(attributes) {
+		console.log('Model.firstOrCreate()');
+
+		$.when(
+			this.__find__(attributes, true)
+		).done(function(data){
+			if(data instanceof Object && data != {}){
+				return data;
+			}else if(data instanceof Array && data != []){
+				return data[0];
+			}else{
+				return this.hydrate(attributes).save();
+			}
+		});
+	}
+
+	/**
+	* @todo Implement this function
+	* @static
+	* @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
+	* @returns {Array|Model} Deferred instance of the Models that are found
+	*
+	* Finds and returns the first instance of the model or creates a new instance if none are found.
+	*/
+	static firstOrNew(attributes) {
+		console.log('Model.firstOrNew()');
+
+		$.when(
+			this.__find__(attributes, true)
+		).done(function(data){
+			if(data instanceof Object && data != {}){
+				return data;
+			}else if(data instanceof Array && data != []){
+				return data[0];
+			}else{
+				return this.hydrate(attributes);
+			}
+		});
+	}
+
+	/**
+	 * @todo Implement this function
+	 * @static
 	 * @param {Object} attributes Attributes used to return the models that need to be updated
-	 * @param {Object} values Values that model instances will be updated with
-	 * @returns {Array} Deferred instance of the updated models
+	 * @param {Object} properties Properties that model instances will be updated with
+	 * @returns {Array} Deferred instance of the updated or created model(s)
 	 *
 	 * Create or update a model matching the attributes, and fill it with values.
 	 */
-	static updateOrCreate(attributes, values){
+	static updateOrCreate(attributes, properties){
 		console.log('Model.updateOrCreate()');
+
+		$.when(
+			this.__find__(attributes, false, properties)
+		).done(function(data){
+			if((data instanceof Object && data != {} || data instanceof Array && data != [])){
+				return data;
+			}else{
+				return this.hydrate(Object.assign(attributes, properties)).save();
+			}
+		});
 	}
 
 	/**
@@ -139,6 +193,26 @@ export class Model {
 	 */
 	static destroy(items){
 		console.log('Model.destroy()');
+
+		var deferred = $.Deferred();
+
+		// Handle the parameteres and construct uri based on destructured assignment
+
+		$.when(
+			$.ajax({
+				type : this.services.delete.method
+				,url : Utility.stringFormat(this.services.delete.uri, attributes)
+				,dataType : this.services.delete.format
+			})
+		).done(
+			(data, textStatus, jqXHR) => deferred.resolve(
+				this.hydrate(
+					this.filter(data)
+				)
+			)
+		);
+
+		return deferred.promise();
 	}
 
 	/**
@@ -184,6 +258,41 @@ export class Model {
 	}
 
 	/**
+	* @static
+	* @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
+	* @param {Boolean} isSingle An optional boolean that defines whether one or many models are returned. Defaults to false.
+	* @param {Object} properties An optional object containing properties that need to be be updated in the model(s) returned. Defaults to {}.
+	* @returns {Array|Model} Deferred instance of the Models that are found
+	*
+	* Internal function that finds and returns any available instances of the model.
+	*/
+	static __find__(attributes, isSingle = false, properties = {}) {
+		console.log('Model.__find__()');
+
+		var deferred = $.Deferred();
+
+		$.when(
+			$.ajax({
+				type : this.services.find.method
+				,url : Utility.stringFormat(this.services.find.uri, attributes)
+				,dataType : this.services.find.format
+			})
+		).done(
+			(data, textStatus, jqXHR) => {
+				let filtered = this.filter(data);
+				let whittled = (isSingle && filtered instanceof Array) ? filtered[0] : filtered;
+				let merged = Object.assign(whittled, properties);
+
+				deferred.resolve(
+					this.hydrate(merged)
+				);
+			}
+		);
+
+		return deferred.promise();
+	}
+
+	/**
 	 * @constructor
 	 * @param {Object} attributes Attributes needed to instantiate new model instances
 	 * @returns {Model} Instance of the model
@@ -205,6 +314,8 @@ export class Model {
 	 */
 	update(attributes){
 		console.log('model.update()');
+
+		Object.assign(this, attributes).save();
 	}
 
 	/**
@@ -215,6 +326,24 @@ export class Model {
 	 */
 	save() {
 		console.log('model.save()');
+
+		var deferred = $.Deferred();
+
+		// May need to implement a check to see whether create or save would be better...
+
+		$.when(
+			$.ajax({
+				type : this.services.update.method
+				,url : Utility.stringFormat(this.services.update.uri, attributes)
+				,dataType : this.services.update.format
+			})
+		).done(
+			(data, textStatus, jqXHR) => deferred.resolve(
+				this
+			)
+		);
+
+		return deferred.promise();
 	}
 
 	/**
@@ -224,5 +353,21 @@ export class Model {
 	 */
 	delete() {
 		console.log('model.delete()');
+
+		var deferred = $.Deferred();
+
+		$.when(
+			$.ajax({
+				type : this.services.delete.method
+				,url : Utility.stringFormat(this.services.delete.uri, attributes)
+				,dataType : this.services.delete.format
+			})
+		).done(
+			(data, textStatus, jqXHR) => deferred.resolve(
+				true
+			)
+		);
+
+		return deferred.promise();
 	}
 }

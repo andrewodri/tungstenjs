@@ -14,8 +14,8 @@ export class View {
 	 * This function is called by the render function, providing with the data that is returned from the resolved promise object. While the template is currently implemented as an ECMAScript 6 template literal, it could also just return a path if the render function has been implemented with a 3rd party renderer.
 	 */
 	static template(data) {
-		console.log('view.template()');
-		
+		console.log('View.template()');
+
 		return ``;
 	}
 
@@ -27,13 +27,13 @@ export class View {
 	 */
 	static render(request) {
 		console.log('View.render()');
-		
+
 		let deferred = $.Deferred();
-	
+
 		$.when(request).done(
 			(data, textStatus, jqXHR) => deferred.resolve(this.template(data))
 		);
-		
+
 		return deferred.promise();
 	}
 }

@@ -28,7 +28,7 @@ export class Route {
 	}
 
 	static group(filters, callback) {
-		// IN addtion to standard/named filters, subdomains with wildcards can be passed 'domain'
+		// In addtion to standard/named filters, subdomains with wildcards can be passed 'domain'
 		// Prefixes should be definable in the filters 'prefix'
 		return this;
 	}

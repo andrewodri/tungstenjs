@@ -5,6 +5,14 @@ export class Log {
 		throw new Error('Cannot instantiate static class Log');
 	}
 
+	static get enabled() {
+		return Log.isEnabled;
+	}
+
+	static set enabled(isEnabled) {
+		Log.isEnabled = isEnabled;
+	}
+
 	static debug(data) {
 		// 7 Debug: debug-level messages
 		return console.log(data);
