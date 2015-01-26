@@ -1,11 +1,11 @@
 export class ExampleModel extends Model {
 	static get services() {
-		return Utility.merge(super.services, {
+		return {
 			create : { method : 'POST', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
 			,find : { method : 'GET', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
 			,update : { method : 'PUT', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
 			,delete : { method : 'DELETE', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
-		});
+		};
 	}
 
 	static filter(data) {

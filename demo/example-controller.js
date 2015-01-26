@@ -1,19 +1,19 @@
 export class ExampleController extends Controller {
 	get defaults() {
-		return Utility.merge(super.defaults, {
+		return {
 			selectors : {
 				displayElement : '.display'
 				,searchField : '.search-field'
 				,searchButton : '.search-button'
 			}
-		});
+		};
 	}
 
 	get listeners() {
-		return Utility.merge(super.listeners, [
+		return [
 			{ selector : '{selectors.searchButton} click', handler : this.displayArtist }
 			,{ selector : 'click', handler : this.example }
-		]);
+		];
 	}
 
 	initialize(element) {

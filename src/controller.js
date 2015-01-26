@@ -79,13 +79,33 @@ export class Controller {
 	constructor(context) {
 		console.log('controller.constructor()');
 
+		this.__defaults__ = this.defaults;
+		this.__listeners__ = this.listeners;
+
+		// What is this black magic? Ghetto introspection baby... We are basically taking the ugly out each getter and putting into one lump of super-ugly
+		var classIterator = this.constructor.__proto__;
+
+		// Check if the prototype is defined; if it is empty then super class is now Object and we can't go further
+		while(classIterator.hasOwnProperty("prototype")){
+			if(classIterator.prototype.hasOwnProperty("defaults")){
+				this.__defaults__ = Object.assign(classIterator.prototype.defaults, this.__defaults__);
+			}
+
+			if(classIterator.prototype.hasOwnProperty("listeners")){
+				this.__listeners__ = classIterator.prototype.listeners.concat(this.__listeners__);
+			}
+
+			// We are going down the rabbit hole now... Try and access the current classIterator's super class...
+			classIterator = classIterator.constructor.__proto__;
+		}
+
 		// Rename context to element, and element to targetElement...
 		this.element = $(context);
 
 		// Merge defaults into the instance of this class... (I don't know if this is a good idea yet)
-		Object.assign(this, this.defaults);
+		Object.assign(this, this.__defaults__);
 
-		for(let listener of this.listeners){
+		for(let listener of this.__listeners__){
 			// Set all the main variables through destructured assignment...
 			let [, objectString, selectorElement, event] = /(?:\{([^\{\}\s]*)\})*(\S+)*?\s*?(\S+)/.exec(listener.selector);
 
