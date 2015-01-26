@@ -238,7 +238,7 @@ export class Model {
 	static hydrate(data) {
 		console.log('Model.hydrate()');
 
-		let result = false;
+		let result;
 
 		if(data instanceof Array){
 			result = [];

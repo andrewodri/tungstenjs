@@ -88,12 +88,12 @@ export class Controller {
 		var classIterator = this.constructor.__proto__;
 
 		// Check if the prototype is defined; if it is empty then super class is now Object and we can't go further
-		while(classIterator.hasOwnProperty("prototype")){
-			if(classIterator.prototype.hasOwnProperty("defaults")){
+		while(classIterator.hasOwnProperty('prototype')){
+			if(classIterator.prototype.hasOwnProperty('defaults')){
 				this.__defaults__ = Object.assign(classIterator.prototype.defaults, this.__defaults__);
 			}
 
-			if(classIterator.prototype.hasOwnProperty("listeners")){
+			if(classIterator.prototype.hasOwnProperty('listeners')){
 				this.__listeners__ = classIterator.prototype.listeners.concat(this.__listeners__);
 			}
 

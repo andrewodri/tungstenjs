@@ -23,7 +23,7 @@ export class View {
 	 * @param {Object} request The request is a deferred object containing the data to be rendered by the view. Usually this is a deferred AJAX object returned by the model, but could be any appropriate object.
 	 * @return {Object} Returns a deferred object containing the rendered view HTML after it has been applied to the template in the in the template function
 	 *
-	 * This function takre care of managing the rendering of the view. The bulk of the logic should be stored in the function if it is to be overriden for a 3rd party renderer. This allows the template object to be as simple as possible, so that it be overridden with just a simple template or path for real world view implementations.
+	 * This function take care of managing the rendering of the view. The bulk of the logic should be stored in the function if it is to be overriden for a 3rd party renderer. This allows the template object to be as simple as possible, so that it be overridden with just a simple template or path for real world view implementations.
 	 */
 	static render(request) {
 		console.log('View.render()');
