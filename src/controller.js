@@ -10,16 +10,16 @@
  */
 export class Controller {
 	/**
-	 * @property {Object} defaults The properties of this object will be merged into the controller itself, providing default values for the controller itself
+	 * @property {Object} defaults The properties of this object will be merged into the controller itself, providing default values for the controller
 	 *
 	 * Defines default properties that will be merged into each controller instance by default.
 	 *
-	 * Due to the lack of support for class properties in ECMAScript 6, properties have been defined in getters that merge with thier super functions.
+	 * Due to the lack of support for class properties in ECMAScript 6, properties have been defined in getters, which are then merged with thier super functions by the constructor.
 	 *
 	 * Below is an example of a standard override of defaults that merges with it's sub class:
 	 *
 	 *	get defaults() {
-	 *		return super.defaults.merge({
+	 *		return {
 	 *			selectors : {
 	 *				displayElement : '.display'
 	 *				,searchField : '.search-field'
@@ -30,7 +30,7 @@ export class Controller {
 	 *				,selected : 'selected'
 	 *				,loading : 'loading'
 	 *			}
-	 *		});
+	 *		};
 	 *	}
 	 *
 	 * These properties can be accessed straight from controller instance itself. For example, to access selectors.displayElement defined in the above example, you would reference it with `controllerInstance.selectors.displayElement`. See the demo application for an example implementation.
@@ -45,16 +45,16 @@ export class Controller {
 	 *
 	 * Defines the listener object which will be parsed through and then bound during construction. See the demo application for an example implementation.
 	 *
-	 * Due to the lack of support for class properties in ECMAScript 6, properties have been defined in getters that merge with thier super functions.
+	 * Due to the lack of support for class properties in ECMAScript 6, properties have been defined in getters, which are then merged with thier super functions by the constructor.
 	 *
 	 * Below is an example of a standard override of defaults that merges with it's sub class:
 	 *
 	 *	get listeners() {
-	 *		return super.listeners.concat([
+	 *		return [
 	 *			{ selector : '{selectors.searchButton} click', handler : this.example }
 	 *			,{ selector : 'div#identification.classification click', handler : this.example }
 	 *			,{ selector : 'click', handler : this.example }
-	 *		]);
+	 *		];
 	 *	}
 	 */
 	get listeners() {
@@ -66,7 +66,9 @@ export class Controller {
 	 * @param {DOMElement} context Element that the controller will be bound to and use as it's scope
 	 * @returns {Controller} Instance of the controller object
 	 *
-	 * The first thing the contructor does is set the element property of the controller to a jQuery object of the context. This will provide access to the jQuery function easily, and allow for easy referencing through the controller.
+	 * The first thing the contructor does is merge this.defaults and this.listeners with the values defined in each super class. "Private" variables are created for acess within the constructor.
+	 *
+	 * Then, the element property of the controller is set to a jQuery object of the context. This will provide access to the jQuery function easily, and allow for easy referencing through the controller.
 	 *
 	 * Next, the properties in default are also merged into the controller instance.
 	 *
