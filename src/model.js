@@ -13,6 +13,8 @@
  * The naming conventions and structure for the majority of the functions and methods provided are inspired by [Laravel's](http://laravel.com/) [Eloquent ORM Model](http://laravel.com/api/4.2/Illuminate/Database/Eloquent/Model.html).
  */
 export class Model {
+	static get classReference() { return eval(this.name); }
+	get classReference() { return eval(this.constructor.name); }
 	/**
 	 * @static
 	 * @property {Object} services Object containing create, find, update, and delete properties that define RESTful service endpoints
@@ -280,7 +282,7 @@ export class Model {
 		).done(
 			(data, textStatus, jqXHR) => {
 				let filtered = this.filter(data);
-				let whittled = (isSingle && filtered instanceof Array) ? filtered[0] : filtered;
+				let whittled = ((isSingle || filtered.length == 1) && filtered instanceof Array) ? filtered[0] : filtered;
 				let merged = Object.assign(whittled, properties);
 
 				deferred.resolve(

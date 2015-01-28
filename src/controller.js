@@ -9,6 +9,8 @@
  * The event binding system and other elements of functionality are inspired by [JavascriptMVC's](http://javascriptmvc.com/) [implementation of the controller](http://javascriptmvc.com/docs/can.Control.html).
  */
 export class Controller {
+	static get classReference() { return eval(this.name); }
+	get classReference() { return eval(this.constructor.name); }
 	/**
 	 * @property {Object} defaults The properties of this object will be merged into the controller itself, providing default values for the controller
 	 *

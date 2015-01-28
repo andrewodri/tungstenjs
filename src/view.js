@@ -7,6 +7,8 @@
  * This view utilizes very basic template literals that are native to ECMAScript 6. This view is intended to be extended for use with other templating systems, for example `EJSView`, `MustacheView`, and `UnderscoreView` that are under development.
  */
 export class View {
+	static get classReference() { return eval(this.name); }
+	get classReference() { return eval(this.constructor.name); }
 	/**
 	 * @param {Object} data This is data returned from the resolved promise in the render function
 	 * @returns {String} String containing the the HTML render buy the temaplte based on the data provided in the data parameter
