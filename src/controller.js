@@ -9,8 +9,21 @@
  * The event binding system and other elements of functionality are inspired by [JavascriptMVC's](http://javascriptmvc.com/) [implementation of the controller](http://javascriptmvc.com/docs/can.Control.html).
  */
 export class Controller {
+	/**
+	* @static
+	* @property {Class} classReference Reference to the current class
+	*
+	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	*/
 	static get classReference() { return eval(this.name); }
+
+	/**
+	* @property {Class} classReference Reference to the current class
+	*
+	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	*/
 	get classReference() { return eval(this.constructor.name); }
+
 	/**
 	 * @property {Object} defaults The properties of this object will be merged into the controller itself, providing default values for the controller
 	 *
@@ -86,21 +99,24 @@ export class Controller {
 		this.__defaults__ = this.defaults;
 		this.__listeners__ = this.listeners;
 
-		// What is this black magic? Ghetto introspection baby... We are basically taking the ugly out each getter and putting into one lump of super-ugly
+		// What is this black magic? Ghetto introspection baby... We are basically taking the ugly out of each getter and putting into one lump of super-ugly
 		var classIterator = this.constructor.__proto__;
 
 		// Check if the prototype is defined; if it is empty then super class is now Object and we can't go further
 		while(classIterator.hasOwnProperty('prototype')){
-			if(classIterator.prototype.hasOwnProperty('defaults')){
+		//while(Reflect.has(classIterator, 'name') && Reflect.get(classIterator, 'name') !== 'Empty'){
+			if(classIterator.hasOwnProperty('defaults')){
+			//if(Reflect.has(classIterator, 'defaults')){
 				this.__defaults__ = Object.assign(classIterator.prototype.defaults, this.__defaults__);
 			}
 
-			if(classIterator.prototype.hasOwnProperty('listeners')){
-				this.__listeners__ = classIterator.prototype.listeners.concat(this.__listeners__);
+			if(classIterator.hasOwnProperty('listeners')){
+			//if(Reflect.has(classIterator, 'listeners')){
+					this.__listeners__ = classIterator.prototype.listeners.concat(this.__listeners__);
 			}
 
 			// We are going down the rabbit hole now... Try and access the current classIterator's super class...
-			classIterator = classIterator.constructor.__proto__;
+			classIterator = classIterator.__proto__;
 		}
 
 		// Rename context to element, and element to targetElement...

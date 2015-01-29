@@ -1,3 +1,5 @@
+import {Model} from '../src/model';
+
 export class ExampleModel extends Model {
 	static get services() {
 		return {

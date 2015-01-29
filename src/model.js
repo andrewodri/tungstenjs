@@ -1,3 +1,5 @@
+import {Utility} from './utility';
+
 /**
  * @class Model
  * @author Andrew Odri andrew@affirmix.com
@@ -13,8 +15,21 @@
  * The naming conventions and structure for the majority of the functions and methods provided are inspired by [Laravel's](http://laravel.com/) [Eloquent ORM Model](http://laravel.com/api/4.2/Illuminate/Database/Eloquent/Model.html).
  */
 export class Model {
+	/**
+	* @static
+	* @property {Class} classReference Reference to the current class
+	*
+	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	*/
 	static get classReference() { return eval(this.name); }
+
+	/**
+	* @property {Class} classReference Reference to the current class
+	*
+	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	*/
 	get classReference() { return eval(this.constructor.name); }
+
 	/**
 	 * @static
 	 * @property {Object} services Object containing create, find, update, and delete properties that define RESTful service endpoints
@@ -247,11 +262,11 @@ export class Model {
 
 			for(let item of data){
 				if(item instanceof Object){
-					result.push(new Model(item));
+					result.push(new this.classReference(item));
 				}
 			}
 		}else if(data instanceof Object){
-			result = new Model(data);
+			result = new this.classReference(data);
 		}else{
 			throw new Error('Cannot hydrate model from a non-object in class Model');
 		}

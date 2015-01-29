@@ -7,8 +7,21 @@
  * This view utilizes very basic template literals that are native to ECMAScript 6. This view is intended to be extended for use with other templating systems, for example `EJSView`, `MustacheView`, and `UnderscoreView` that are under development.
  */
 export class View {
+	/**
+	* @static
+	* @property {Class} classReference Reference to the current class
+	*
+	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	*/
 	static get classReference() { return eval(this.name); }
+
+	/**
+	* @property {Class} classReference Reference to the current class
+	*
+	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	*/
 	get classReference() { return eval(this.constructor.name); }
+
 	/**
 	 * @param {Object} data This is data returned from the resolved promise in the render function
 	 * @returns {String} String containing the the HTML render buy the temaplte based on the data provided in the data parameter

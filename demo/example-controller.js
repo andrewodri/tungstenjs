@@ -1,3 +1,8 @@
+import {Controller} from '../src/controller';
+
+import {ExampleModel} from './example-model';
+import {ExampleView} from './example-view';
+
 export class ExampleController extends Controller {
 	get defaults() {
 		return {
@@ -22,7 +27,7 @@ export class ExampleController extends Controller {
 
 	displayArtist(event, element) {
 		console.log('exampleController.displayArtist()');
-		
+
 		$(this.selectors.displayElement).view(
 			ExampleView.render(
 				ExampleModel.find({
@@ -34,7 +39,7 @@ export class ExampleController extends Controller {
 
 	example(event) {
 		console.log('exampleController.example()');
-		
+
 		event.stopPropagation();
 	}
 }
