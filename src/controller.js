@@ -1,5 +1,5 @@
 /**
- * @class View
+ * @class Controller
  * @author Andrew Odri andrew@affirmix.com
  *
  * This class is the base controller in TungstenJS. A defaults property is provided to be overridden and merged allowing you to define common selectors, classes, and strings that will be referenced throughout your controller.
@@ -10,18 +10,18 @@
  */
 export class Controller {
 	/**
-	* @static
-	* @property {Class} classReference Reference to the current class
-	*
-	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
-	*/
+	 * @static
+	 * @property {Class} classReference Reference to the current class
+	 *
+	 * This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	 */
 	static get classReference() { return eval(this.name); }
 
 	/**
-	* @property {Class} classReference Reference to the current class
-	*
-	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
-	*/
+	 * @property {Class} classReference Reference to the current class
+	 *
+	 * This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	 */
 	get classReference() { return eval(this.constructor.name); }
 
 	/**
@@ -50,9 +50,7 @@ export class Controller {
 	 *
 	 * These properties can be accessed straight from controller instance itself. For example, to access selectors.displayElement defined in the above example, you would reference it with `controllerInstance.selectors.displayElement`. See the demo application for an example implementation.
 	 */
-	get defaults() {
-		return {}
-	}
+	get defaults() { return {}; }
 
 	/**
 	 * @todo In each listener object, separate the event from the selector and give it it's own event property
@@ -72,9 +70,7 @@ export class Controller {
 	 *		];
 	 *	}
 	 */
-	get listeners() {
-		return []
-	}
+	get listeners() { return []; }
 
 	/**
 	 * @todo Investigate whether re-triggering ready and load events will cause issues
@@ -175,10 +171,10 @@ export class Controller {
 	}
 
 	/**
-	* @param {Boolean} isIncludeElement Defines whether the DOM element that the controller is attached to should also be destroyed.
-	*
-	* This function destroys the instance of the controller, as well as the DOM element if defined.
-	*/
+	 * @param {Boolean} isIncludeElement Defines whether the DOM element that the controller is attached to should also be destroyed.
+	 *
+	 * This function destroys the instance of the controller, as well as the DOM element if defined.
+	 */
 	destroy(isIncludeElement = false) {
 		console.log('controller.destroy()');
 

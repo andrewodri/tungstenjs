@@ -8,21 +8,22 @@
  */
 export class View {
 	/**
-	* @static
-	* @property {Class} classReference Reference to the current class
-	*
-	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
-	*/
+	 * @static
+	 * @property {Class} classReference Reference to the current class
+	 *
+	 * This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	 */
 	static get classReference() { return eval(this.name); }
 
 	/**
-	* @property {Class} classReference Reference to the current class
-	*
-	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
-	*/
+	 * @property {Class} classReference Reference to the current class
+	 *
+	 * This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	 */
 	get classReference() { return eval(this.constructor.name); }
 
 	/**
+	 * @static
 	 * @param {Object} data This is data returned from the resolved promise in the render function
 	 * @returns {String} String containing the the HTML render buy the temaplte based on the data provided in the data parameter
 	 *
@@ -35,6 +36,7 @@ export class View {
 	}
 
 	/**
+	 * @static
 	 * @param {Object} request The request is a deferred object containing the data to be rendered by the view. Usually this is a deferred AJAX object returned by the model, but could be any appropriate object.
 	 * @return {Object} Returns a deferred object containing the rendered view HTML after it has been applied to the template in the in the template function
 	 *

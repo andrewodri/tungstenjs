@@ -6,8 +6,6 @@ import {Utility} from './utility';
  *
  * This class is designed to be an abstract model class. RESTful JSON services are also natively supported with full functionality easily enabled by overriding the services getter.
  *
- * This early version only implements the following functions: `find`, `findOrNew`, `findOrFail`, `filter`, and `hydrate`. Services can be defined and are partially implemented.
- *
  * Custom models can be defined by extending this class and overriding any appropriate properties and functions that you wish to customize. See the demo application for an example implementation.
  *
  * In the case of most RESTful APIs, you will only need to override the `services` property and the `filter` function.
@@ -16,18 +14,18 @@ import {Utility} from './utility';
  */
 export class Model {
 	/**
-	* @static
-	* @property {Class} classReference Reference to the current class
-	*
-	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
-	*/
+	 * @static
+	 * @property {Class} classReference Reference to the current class
+	 *
+	 * This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	 */
 	static get classReference() { return eval(this.name); }
 
 	/**
-	* @property {Class} classReference Reference to the current class
-	*
-	* This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
-	*/
+	 * @property {Class} classReference Reference to the current class
+	 *
+	 * This returns a reference that whatever the top-most sub-class is, which comes in handy when managing instances in static functions on classes that are designed to be extended.
+	 */
 	get classReference() { return eval(this.constructor.name); }
 
 	/**
@@ -59,7 +57,6 @@ export class Model {
 	}
 
 	/**
-	 * @todo Implement this function
 	 * @static
 	 * @param {Object} attributes Attributes that will be used to hydrate a new model instance. See `hydrate` for more information
 	 * @returns {Model} Deferred instance of the newly created model
@@ -73,7 +70,6 @@ export class Model {
 	}
 
 	/**
-	 * @todo Implement `first`, `firstOrCreate`, and `firstOrNew` to return a single instance, and always return an array with this function
 	 * @static
 	 * @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
 	 * @returns {Array|Model} Deferred instance of the Models that are found
@@ -87,12 +83,12 @@ export class Model {
 	}
 
 	/**
-	* @static
-	* @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
-	* @returns {Array|Model} Deferred instance of the models that are found
-	*
-	* Finds and returns once or more instances of the model or throws and error if none are found.
-	*/
+	 * @static
+	 * @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
+	 * @returns {Array|Model} Deferred instance of the models that are found
+	 *
+	 * Finds and returns once or more instances of the model or throws and error if none are found.
+	 */
 	static findOrFail(attributes) {
 		console.log('Model.findOrFail()');
 
@@ -108,7 +104,6 @@ export class Model {
 	}
 
 	/**
-	 * @todo Implement this function
 	 * @static
 	 * @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
 	 * @returns {Array|Model} Deferred instance of the Models that are found
@@ -130,13 +125,12 @@ export class Model {
 	}
 
 	/**
-	* @todo Implement this function
-	* @static
-	* @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
-	* @returns {Array|Model} Deferred instance of the Models that are found
-	*
-	* Finds and returns the first instance of the model or creates a new instance and saves it if none are found.
-	*/
+	 * @static
+	 * @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
+	 * @returns {Array|Model} Deferred instance of the Models that are found
+	 *
+	 * Finds and returns the first instance of the model or creates a new instance and saves it if none are found.
+	 */
 	static firstOrCreate(attributes) {
 		console.log('Model.firstOrCreate()');
 
@@ -154,13 +148,12 @@ export class Model {
 	}
 
 	/**
-	* @todo Implement this function
-	* @static
-	* @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
-	* @returns {Array|Model} Deferred instance of the Models that are found
-	*
-	* Finds and returns the first instance of the model or creates a new instance if none are found.
-	*/
+	 * @static
+	 * @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
+	 * @returns {Array|Model} Deferred instance of the Models that are found
+	 *
+	 * Finds and returns the first instance of the model or creates a new instance if none are found.
+	 */
 	static firstOrNew(attributes) {
 		console.log('Model.firstOrNew()');
 
@@ -178,7 +171,6 @@ export class Model {
 	}
 
 	/**
-	 * @todo Implement this function
 	 * @static
 	 * @param {Object} attributes Attributes used to return the models that need to be updated
 	 * @param {Object} properties Properties that model instances will be updated with
@@ -201,7 +193,6 @@ export class Model {
 	}
 
 	/**
-	 * @todo Implement this function
 	 * @static
 	 * @param {Array} items Model instances to be deleted
 	 * @returns {Boolean} Boolean expressing whether the operation was successful
@@ -275,14 +266,14 @@ export class Model {
 	}
 
 	/**
-	* @static
-	* @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
-	* @param {Boolean} isSingle An optional boolean that defines whether one or many models are returned. Defaults to false.
-	* @param {Object} properties An optional object containing properties that need to be be updated in the model(s) returned. Defaults to {}.
-	* @returns {Array|Model} Deferred instance of the Models that are found
-	*
-	* Internal function that finds and returns any available instances of the model.
-	*/
+	 * @static
+	 * @param {Object} attributes An object containing properties that correspond to the attributes in the templated RESTful URL, if not overriden by custom functionality
+	 * @param {Boolean} isSingle An optional boolean that defines whether one or many models are returned. Defaults to false.
+	 * @param {Object} properties An optional object containing properties that need to be be updated in the model(s) returned. Defaults to {}.
+	 * @returns {Array|Model} Deferred instance of the Models that are found
+	 *
+	 * Internal function that finds and returns any available instances of the model.
+	 */
 	static __find__(attributes, isSingle = false, properties = {}) {
 		console.log('Model.__find__()');
 
@@ -323,7 +314,6 @@ export class Model {
 	}
 
 	/**
-	 * @todo Implement this function
 	 * @param {Object} attributes Attributes that will be used to hydrate a new model instance. See `hydrate` for more information.
 	 * @returns {Model} Deferred instance of the newly created model
 	 *
@@ -336,7 +326,6 @@ export class Model {
 	}
 
 	/**
-	 * @todo Implement this function
 	 * @returns {Model} Instance of the saved model
 	 *
 	 * Performs a save operation.
@@ -364,7 +353,7 @@ export class Model {
 	}
 
 	/**
-	 * @todo Implement this function
+	 * @returns {Boolean} Returns a deferred boolean indiciation whether the model was delete sucessfully
 	 *
 	 * Deletes the instance of the model.
 	 */
