@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://github.com/affirmix/tungstenjs/blob/master/tungstenjs-logo.png?raw=true" alt="TungstenJS logo"/>
-</p>
-
 ## What is TungstenJS?
 
 TungstenJS is an ECMAScript 6 (ES6) Javascript MVC framework designed to provide common object-oriented design patterns in manner more familiar to developers who have experience working with class-based languages, thanks to the new language features introduced in the [ECMA-262 6th Edition Draft Specification](http://people.mozilla.org/~jorendorff/es6-draft.html).
