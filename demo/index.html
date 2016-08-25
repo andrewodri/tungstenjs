@@ -3,15 +3,6 @@
 	<head>
 		<title>iTunes Browser Application</title>
 		<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-		<script type="text/javascript">
-			$.fn.view = function(){
-				var scope = this;
-				return $.when(arguments[0]).done(function(){
-					return scope.html(arguments[0]);
-				});
-			}
-		</script>
-		<script type="text/javascript" src="demo.js"></script>
 	</head>
 	<body>
 
@@ -24,5 +15,6 @@
 			<input type="button" class="search-button" value="Find song" />
 		</div>
 
+		<script type="text/javascript" src="demo.js"></script>
 	</body>
 </html>

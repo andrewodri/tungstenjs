@@ -3,10 +3,10 @@ import {Model} from '../src/model';
 export class ExampleModel extends Model {
 	static get services() {
 		return {
-			create : { method : 'POST', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
-			,find : { method : 'GET', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
-			,update : { method : 'PUT', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
-			,delete : { method : 'DELETE', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' }
+			create : { method : 'POST', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' },
+			find : { method : 'GET', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' },
+			update : { method : 'PUT', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' },
+			delete : { method : 'DELETE', uri : 'https://itunes.apple.com/search?term=${term}', format : 'jsonp' },
 		};
 	}
 

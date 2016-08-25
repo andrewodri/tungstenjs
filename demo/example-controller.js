@@ -24,12 +24,11 @@ export class ExampleController extends Controller {
 	displayArtist(event, element) {
 		console.log('exampleController.displayArtist()');
 
-		$(this.selectors.displayElement).view(
-			ExampleView.render(
-				ExampleModel.find({
-					term : $(this.selectors.searchField).val()
-				})
-			)
+		ExampleView.render(
+			ExampleModel.find({
+				term : document.querySelector(this.selectors.searchField).value
+			}),
+			this.selectors.displayElement
 		);
 	}
 
