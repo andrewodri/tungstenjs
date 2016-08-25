@@ -1,0 +1,38 @@
+{
+	"name": "tungstenjs",
+	"description": "Pure ES6 MVC framework.",
+	"keywords": [
+		"tungsten",
+		"tungstenjs",
+		"framework",
+		"mvc",
+		"ecmascript6",
+		"es6"
+	],
+	"homepage": "https://github.com/affirmix/tungstenjs",
+	"bugs": {
+		"url": "https://github.com/affirmix/tungstenjs/issues"
+	},
+	"author": "Andrew Odri <andrew@affirmix.com> (http://affirmix.com)",
+	"license": "MIT",
+	"preferGlobal": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/affirmix/tungstenjs.git"
+	},
+	"devDependencies": {
+		"babel-polyfill": "^6.13.0",
+		"babel-preset-es2015": "^6.13.0",
+		"babel-preset-es2016": "^6.11.0",
+		"babel-preset-stage-0": "^6.5.0",
+		"babel-preset-stage-3": "^6.11.0",
+		"babelify": "^7.3.0",
+		"browserify": "^13.1.0",
+		"gulp": "^3.9.0",
+		"gulp-sourcemaps": "^1.6.0",
+		"gulp-uglify": "^2.0.0",
+		"gulp-util": "^3.0.0",
+		"vinyl-buffer": "^1.0.0",
+		"vinyl-source-stream": "^1.1.0"
+	}
+}
