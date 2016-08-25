@@ -49,10 +49,10 @@ export class Model {
 	 */
 	static get services() {
 		return {
-			create : { method : 'POST', uri : '', format : 'jsonp' }
-			,find : { method : 'GET', uri : '', format : 'jsonp' }
-			,update : { method : 'PUT', uri : '', format : 'jsonp' }
-			,delete : { method : 'DELETE', uri : '', format : 'jsonp' }
+			create : { method : 'POST', uri : '', format : 'jsonp' },
+			find : { method : 'GET', uri : '', format : 'jsonp' },
+			update : { method : 'PUT', uri : '', format : 'jsonp' },
+			delete : { method : 'DELETE', uri : '', format : 'jsonp' },
 		}
 	}
 
@@ -92,9 +92,7 @@ export class Model {
 	static findOrFail(attributes) {
 		console.log('Model.findOrFail()');
 
-		$.when(
-			this.__find__(attributes)
-		).done(function(data){
+		this.__find__(attributes).then((data) => {
 			if((data instanceof Object && data != {}) || (data instanceof Array && data != [])){
 				return data;
 			}else{
@@ -113,9 +111,7 @@ export class Model {
 	static findOrNew(attributes) {
 		console.log('Model.findOrNew()');
 
-		$.when(
-			this.__find__(attributes)
-		).done(function(data){
+		this.__find__(attributes).then((data) => {
 			if((data instanceof Object && data != {}) || (data instanceof Array && data != [])){
 				return data;
 			}else{
@@ -134,9 +130,7 @@ export class Model {
 	static firstOrCreate(attributes) {
 		console.log('Model.firstOrCreate()');
 
-		$.when(
-			this.__find__(attributes, true)
-		).done(function(data){
+		this.__find__(attributes, true).then((data) => {
 			if(data instanceof Object && data != {}){
 				return data;
 			}else if(data instanceof Array && data != []){
@@ -157,9 +151,7 @@ export class Model {
 	static firstOrNew(attributes) {
 		console.log('Model.firstOrNew()');
 
-		$.when(
-			this.__find__(attributes, true)
-		).done(function(data){
+		this.__find__(attributes, true).then((data) => {
 			if(data instanceof Object && data != {}){
 				return data;
 			}else if(data instanceof Array && data != []){
@@ -181,9 +173,7 @@ export class Model {
 	static updateOrCreate(attributes, properties){
 		console.log('Model.updateOrCreate()');
 
-		$.when(
-			this.__find__(attributes, false, properties)
-		).done(function(data){
+		this.__find__(attributes, false, properties).then((data) => {
 			if((data instanceof Object && data != {} || data instanceof Array && data != [])){
 				return data;
 			}else{
@@ -202,25 +192,22 @@ export class Model {
 	static destroy(items){
 		console.log('Model.destroy()');
 
-		var deferred = $.Deferred();
-
 		// Handle the parameteres and construct uri based on destructured assignment
 
-		$.when(
-			$.ajax({
-				type : this.services.delete.method
-				,url : Utility.stringFormat(this.services.delete.uri, attributes)
-				,dataType : this.services.delete.format
-			})
-		).done(
-			(data, textStatus, jqXHR) => deferred.resolve(
-				this.hydrate(
-					this.filter(data)
-				)
-			)
-		);
-
-		return deferred.promise();
+		return new Promise((resolve, reject) => {
+			Utility.request(
+				this.services.delete.uri,
+				this.services.delete.method,
+				this.services.delete.format,
+				attributes,
+			).then((data) => {
+				resolve(
+					this.hydrate(
+						this.filter(data)
+					)
+				);
+			}).catch((error) => reject(error));
+		});
 	}
 
 	/**
@@ -253,11 +240,13 @@ export class Model {
 
 			for(let item of data){
 				if(item instanceof Object){
-					result.push(new this.classReference(item));
+					result.push(new this(item));
+					//result.push(new this.classReference(item));
 				}
 			}
 		}else if(data instanceof Object){
-			result = new this.classReference(data);
+			result = new this(data);
+			//result = new this.classReference(data);
 		}else{
 			throw new Error('Cannot hydrate model from a non-object in class Model');
 		}
@@ -277,27 +266,22 @@ export class Model {
 	static __find__(attributes, isSingle = false, properties = {}) {
 		console.log('Model.__find__()');
 
-		var deferred = $.Deferred();
-
-		$.when(
-			$.ajax({
-				type : this.services.find.method
-				,url : Utility.stringFormat(this.services.find.uri, attributes)
-				,dataType : this.services.find.format
-			})
-		).done(
-			(data, textStatus, jqXHR) => {
-				let filtered = this.filter(data);
+		return new Promise((resolve, reject) => {
+			Utility.request(
+				this.services.find.uri,
+				this.services.find.method,
+				this.services.find.format,
+				attributes,
+			).then((data) => {
+				let filtered = this.filter(data instanceof String ? JSON.parse(data) : data);
 				let whittled = ((isSingle || filtered.length == 1) && filtered instanceof Array) ? filtered[0] : filtered;
 				let merged = Object.assign(whittled, properties);
 
-				deferred.resolve(
+				resolve(
 					this.hydrate(merged)
 				);
-			}
-		);
-
-		return deferred.promise();
+			}).catch((error) => reject(error));
+		});
 	}
 
 	/**
@@ -333,23 +317,18 @@ export class Model {
 	save() {
 		console.log('model.save()');
 
-		var deferred = $.Deferred();
-
 		// May need to implement a check to see whether create or save would be better...
 
-		$.when(
-			$.ajax({
-				type : this.services.update.method
-				,url : Utility.stringFormat(this.services.update.uri, attributes)
-				,dataType : this.services.update.format
-			})
-		).done(
-			(data, textStatus, jqXHR) => deferred.resolve(
-				this
-			)
-		);
-
-		return deferred.promise();
+		return new Promise((resolve, reject) => {
+			Utility.request(
+				this.services.update.uri,
+				this.services.update.method,
+				this.services.update.format,
+				attributes,
+			).then((data) => {
+				resolve(this);
+			}).catch((error) => reject(error));
+		});
 	}
 
 	/**
@@ -360,20 +339,15 @@ export class Model {
 	delete() {
 		console.log('model.delete()');
 
-		var deferred = $.Deferred();
-
-		$.when(
-			$.ajax({
-				type : this.services.delete.method
-				,url : Utility.stringFormat(this.services.delete.uri, attributes)
-				,dataType : this.services.delete.format
-			})
-		).done(
-			(data, textStatus, jqXHR) => deferred.resolve(
-				true
-			)
-		);
-
-		return deferred.promise();
+		return new Promise((resolve, reject) => {
+			Utility.request(
+				this.services.delete.uri,
+				this.services.delete.method,
+				this.services.delete.format,
+				attributes,
+			).then((data) => {
+				resolve(true);
+			}).catch((error) => reject(error));
+		});
 	}
 }

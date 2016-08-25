@@ -38,19 +38,28 @@ export class View {
 	/**
 	 * @static
 	 * @param {Object} request The request is a deferred object containing the data to be rendered by the view. Usually this is a deferred AJAX object returned by the model, but could be any appropriate object.
+	 * @param {Object} selectors The CSS selectors for the elements that the rendered view HTML will be inserted into.
 	 * @return {Object} Returns a deferred object containing the rendered view HTML after it has been applied to the template in the in the template function
 	 *
 	 * This function take care of managing the rendering of the view. The bulk of the logic should be stored in the function if it is to be overriden for a 3rd party renderer. This allows the template object to be as simple as possible, so that it be overridden with just a simple template or path for real world view implementations.
 	 */
-	static render(request) {
+	static render(request, selectors = false) {
 		console.log('View.render()');
 
-		let deferred = $.Deferred();
+		return new Promise((resolve, reject) => {
+			request.then((data) => {
+				let rendered = this.template(data);
 
-		$.when(request).done(
-			(data, textStatus, jqXHR) => deferred.resolve(this.template(data))
-		);
+				if(selectors){
+					let elements = Array.from(document.querySelectorAll(selectors));
 
-		return deferred.promise();
+					for(let element of elements){
+						element.innerHTML = rendered;
+					}
+				}
+
+				resolve(rendered);
+			}).catch((error) => reject(error));
+		});
 	}
 }
